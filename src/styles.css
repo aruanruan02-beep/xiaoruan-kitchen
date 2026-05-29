@@ -71,25 +71,12 @@ h1 {
   line-height: 1;
 }
 
-.counter,
 .back-button,
 .category-strip button,
 .primary-action,
 .image-sheet-head button {
   border: 0;
   cursor: pointer;
-}
-
-.counter {
-  flex: 0 0 auto;
-  min-width: 86px;
-  padding: 11px 14px;
-  color: #fffaf4;
-  background: #d9482f;
-  border-radius: 999px;
-  box-shadow: 0 10px 24px rgba(217, 72, 47, 0.24);
-  font-size: 15px;
-  font-weight: 700;
 }
 
 .category-strip {

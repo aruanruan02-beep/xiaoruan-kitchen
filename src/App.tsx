@@ -347,9 +347,6 @@ export default function App() {
         <div>
           <h1>小阮厨房</h1>
         </div>
-        <button className="counter" type="button" onClick={() => setViewMode("summary")}>
-          已选 {selectedDishes.length}
-        </button>
       </header>
 
       {viewMode === "menu" ? (
@@ -419,7 +416,7 @@ export default function App() {
               onClick={handleFinish}
             >
               选好了
-              <span>{selectedDishes.length > 0 ? `${selectedDishes.length} 道` : "先选几道"}</span>
+              {selectedDishes.length > 0 ? <span>{selectedDishes.length} 道</span> : null}
             </button>
           </nav>
         </>
