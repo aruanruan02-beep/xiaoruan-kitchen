@@ -397,17 +397,17 @@ h1 {
   z-index: 40;
   display: grid;
   align-items: end;
-  padding: 18px 14px calc(18px + env(safe-area-inset-bottom));
+  padding: 10px 8px calc(10px + env(safe-area-inset-bottom));
   background: rgba(36, 22, 15, 0.44);
   backdrop-filter: blur(10px);
 }
 
 .image-sheet-panel {
-  width: min(100%, 560px);
-  max-height: min(86vh, 860px);
+  width: min(100%, 640px);
+  max-height: min(94vh, 920px);
   margin: 0 auto;
   overflow: auto;
-  padding: 14px;
+  padding: 12px;
   background: #fff8ef;
   border-radius: 8px;
   box-shadow: 0 24px 70px rgba(36, 22, 15, 0.28);
@@ -418,7 +418,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .image-sheet-head strong {

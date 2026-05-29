@@ -174,17 +174,18 @@ function drawCoverImage(
 async function createMenuImage(dishes: Dish[]) {
   const groups = groupByCategory(dishes);
   const width = 1080;
-  const padding = 64;
-  const dishHeight = 118;
-  const sectionGap = 36;
+  const padding = 56;
+  const cardHeight = 150;
+  const dishHeight = 170;
+  const sectionGap = 28;
   const estimatedHeight =
-    280 +
-    groups.reduce((total, group) => total + 82 + group.dishes.length * dishHeight + sectionGap, 0) +
-    100;
+    220 +
+    groups.reduce((total, group) => total + 68 + group.dishes.length * dishHeight + sectionGap, 0) +
+    56;
 
   const canvas = document.createElement("canvas");
   canvas.width = width;
-  canvas.height = Math.max(900, estimatedHeight);
+  canvas.height = Math.max(640, estimatedHeight);
   const context = canvas.getContext("2d");
 
   if (!context) {
@@ -197,8 +198,9 @@ async function createMenuImage(dishes: Dish[]) {
   context.fillRect(0, 0, canvas.width, 16);
 
   context.fillStyle = "#24160f";
+  context.textBaseline = "alphabetic";
   context.font = "700 62px system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
-  context.fillText("小阮厨房点菜单", padding, 118);
+  context.fillText("小阮厨房点菜单", padding, 112);
 
   context.fillStyle = "#80695c";
   context.font = "400 30px system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
@@ -209,40 +211,52 @@ async function createMenuImage(dishes: Dish[]) {
       day: "numeric",
     })} · 共 ${dishes.length} 道`,
     padding,
-    170,
+    158,
   );
 
-  let y = 244;
+  let y = 224;
 
   for (const group of groups) {
     context.fillStyle = "#24160f";
     context.font = "700 38px system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
     context.fillText(group.category, padding, y);
-    y += 28;
+    y += 24;
 
     for (const dish of group.dishes) {
       const cardY = y;
-      context.fillStyle = "#ffffff";
-      roundRect(context, padding, cardY, width - padding * 2, 96, 24);
+      const cardWidth = width - padding * 2;
+      const imageSize = 112;
+      const imageX = padding + 20;
+      const imageY = cardY + (cardHeight - imageSize) / 2;
+      const textX = imageX + imageSize + 28;
+      const textMaxWidth = cardWidth - imageSize - 72;
+
+      context.fillStyle = "#fffdf9";
+      roundRect(context, padding, cardY, cardWidth, cardHeight, 28);
       context.fill();
 
       const image = await loadImage(imagePath(dish.image));
       if (image) {
-        drawCoverImage(context, image, padding + 18, cardY + 14, 68);
+        drawCoverImage(context, image, imageX, imageY, imageSize);
       } else {
         context.fillStyle = "#f1dfcb";
-        roundRect(context, padding + 18, cardY + 14, 68, 68, 18);
+        roundRect(context, imageX, imageY, imageSize, imageSize, 18);
         context.fill();
       }
 
       context.fillStyle = "#24160f";
-      context.font = "600 34px system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
-      context.fillText(dish.name, padding + 108, cardY + 42);
+      context.font = "700 39px system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
 
       if (dish.note) {
+        context.textBaseline = "alphabetic";
+        context.fillText(dish.name, textX, cardY + 60);
         context.fillStyle = "#80695c";
-        context.font = "400 25px system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
-        drawWrappedText(context, dish.note, padding + 108, cardY + 76, width - padding * 2 - 150, 30);
+        context.font = "400 27px system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
+        drawWrappedText(context, dish.note, textX, cardY + 102, textMaxWidth, 34);
+      } else {
+        context.textBaseline = "middle";
+        context.fillText(dish.name, textX, cardY + cardHeight / 2);
+        context.textBaseline = "alphabetic";
       }
 
       y += dishHeight;
